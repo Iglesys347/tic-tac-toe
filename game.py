@@ -26,43 +26,47 @@ class Game():
             self.current_player = "o"
         else:
             self.current_player = "x"
+        return self
 
     def won(self):
         """
         This code is bad as f*ck there is certainly a way to improve it
         """
-        return self.grid.value(1) == self.current_player\
-                and self.grid.value(2) == self.current_player\
-                and self.grid.value(3) == self.current_player\
-            or self.grid.value(4) == self.current_player\
-                and self.grid.value(5) == self.current_player\
-                and self.grid.value(6) == self.current_player\
-            or self.grid.value(7) == self.current_player\
-                and self.grid.value(8) == self.current_player\
-                and self.grid.value(9) == self.current_player\
-            or self.grid.value(1) == self.current_player\
-                and self.grid.value(4) == self.current_player\
-                and self.grid.value(7) == self.current_player\
-            or self.grid.value(2) == self.current_player\
-                and self.grid.value(5) == self.current_player\
-                and self.grid.value(8) == self.current_player\
-            or self.grid.value(3) == self.current_player\
-                and self.grid.value(6) == self.current_player\
-                and self.grid.value(9) == self.current_player\
-            or self.grid.value(1) == self.current_player\
-                and self.grid.value(5) == self.current_player\
-                and self.grid.value(9) == self.current_player\
-            or self.grid.value(3) == self.current_player\
-                and self.grid.value(5) == self.current_player\
-                and self.grid.value(7) == self.current_player\
+        return (self.grid.value(1) == self.current_player
+                and self.grid.value(2) == self.current_player
+                and self.grid.value(3) == self.current_player)\
+            or (self.grid.value(4) == self.current_player
+                and self.grid.value(5) == self.current_player
+                and self.grid.value(6) == self.current_player)\
+            or (self.grid.value(7) == self.current_player
+                and self.grid.value(8) == self.current_player
+                and self.grid.value(9) == self.current_player)\
+            or (self.grid.value(1) == self.current_player
+                and self.grid.value(4) == self.current_player
+                and self.grid.value(7) == self.current_player)\
+            or (self.grid.value(2) == self.current_player
+                and self.grid.value(5) == self.current_player
+                and self.grid.value(8) == self.current_player)\
+            or (self.grid.value(3) == self.current_player
+                and self.grid.value(6) == self.current_player
+                and self.grid.value(9) == self.current_player)\
+            or (self.grid.value(1) == self.current_player
+                and self.grid.value(5) == self.current_player
+                and self.grid.value(9) == self.current_player)\
+            or (self.grid.value(3) == self.current_player
+                and self.grid.value(5) == self.current_player
+                and self.grid.value(7) == self.current_player)\
+
 
     def turn(self, cell_number):
         try:
             self.grid.play(cell_number, self.current_player)
             self.grid.draw_txt()
             return self.is_finished()
-        except ValueError:
+        except ValueError as e:
             print("Wrong drawing or cell number")
+            print(e)
+            return "0"
 
     @property
     def get_current_player(self):
@@ -71,6 +75,16 @@ class Game():
     @property
     def get_grid(self):
         return self.grid
+
+    def play_for_ia(self, cell_number):
+        self.grid.play(cell_number, self.current_player)
+        return self
+
+    def unplay_for_ia(self):
+        """ Unplay last moove """
+        self.grid.unplay()
+        return self
+
 
 if __name__ == "__main__":
     g = Game("x")
